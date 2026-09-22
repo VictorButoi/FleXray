@@ -1,0 +1,15 @@
+# Default FleXray launch: the FluXray+MOOSE-heavy multimodal mix.
+#
+# Submit with, e.g.:
+#   fxr-submit --cluster example_slurm --exp-config flexray_default --dry-run --smoke-data
+#   fxr-submit --cluster-cfg my_cluster.yml --exp-config flexray_default
+#
+# Uses packaged dataset versions/resolutions from the training base (the
+# released recipe). The training mix and bf16 AMP come from the base config
+# and the cluster config;
+# omitted or zero-weight datasets are pruned before launch.
+base_cfgs:
+  - base
+
+experiment_cfg:
+  group: flexray_default

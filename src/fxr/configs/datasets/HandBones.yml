@@ -1,0 +1,16 @@
+dataset_name: HandBones
+skip_subjects: null
+stored_labels:
+  0: background
+  1: carpals
+  2: phalange_distal
+  3: phalange_intermediate
+  4: metacarpals
+  5: phalange_proximal
+  6: radii
+  7: ulnae
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    phalange_distal: phalanges
+    phalange_intermediate: phalanges
+    phalange_proximal: phalanges

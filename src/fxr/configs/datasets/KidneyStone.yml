@@ -1,0 +1,18 @@
+dataset_name: KidneyStone
+skip_subjects: null
+stored_labels:
+  0: background
+  1: DJ
+  2: bladder
+  3: kidney
+  4: stone
+  5: ureter
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    kidney: kidneys
+protocol_drop_labels:
+  all_structures_flexray_v4:
+  - DJ
+  - bladder
+  - stone
+  - ureter

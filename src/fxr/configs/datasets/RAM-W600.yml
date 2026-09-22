@@ -1,0 +1,32 @@
+dataset_name: RAM-W600
+skip_subjects: null
+stored_labels:
+  0: background
+  1: carpal_one
+  2: radii
+  3: ulnae
+  4: carpal_two
+  5: carpal_three
+  6: carpal_four
+  7: carpal_five
+  8: carpal_six
+  9: carpal_seven
+  10: metacarpal_one
+  11: metacarpal_two
+  12: metacarpal_three
+  13: metacarpal_four
+  14: metacarpal_five
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    carpal_one: carpals
+    carpal_two: carpals
+    carpal_three: carpals
+    carpal_four: carpals
+    carpal_five: carpals
+    carpal_six: carpals
+    carpal_seven: carpals
+    metacarpal_one: metacarpals
+    metacarpal_two: metacarpals
+    metacarpal_three: metacarpals
+    metacarpal_four: metacarpals
+    metacarpal_five: metacarpals

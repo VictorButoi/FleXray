@@ -1,0 +1,7 @@
+dataset_name: ElbowLat
+skip_subjects: null
+stored_labels:
+  0: background
+  1: humeri
+  2: radii
+  3: ulnae

@@ -1,0 +1,11 @@
+dataset_name: ThoracoaMonch
+skip_subjects: null
+stored_labels:
+  0: background
+  1: lung_left
+  2: lung_right
+  3: thoracolumbar_spine
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    lung_left: lungs
+    lung_right: lungs

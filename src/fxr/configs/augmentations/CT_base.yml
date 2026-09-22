@@ -1,0 +1,52 @@
+# Train augmentation preset for rendered DRR sources (released recipe, 2026-08-22).
+RandomHorizontalFlip:
+  module: kornia.augmentation
+  p: 0.5
+RandomAffine:
+  module: kornia.augmentation
+  degrees: 90
+  translate: [0.25, 0.25]
+  scale: [0.8, 1.2]
+  shear: [-16.0, 16.0, -16.0, 16.0]
+  p: 0.25
+RandomElasticTransform:
+  module: kornia.augmentation
+  kernel_size: [127, 127]
+  alpha: [12.0, 20.0]
+  sigma: [64.0, 64.0]
+  p: 0.1
+RandomLetterDrop:
+  module: fxr.augmentation
+  p: 0.25
+RandomInvert:
+  module: kornia.augmentation
+  p: 0.5
+RandomClaheOrGamma:
+  module: fxr.augmentation
+  clip_limit: [1.0, 2.0]
+  gamma: [0.9, 1.1]
+  gain: [0.9, 1.1]
+  clahe_prob: 0.1
+  gamma_prob: 0.25
+RandomContrast:
+  module: kornia.augmentation
+  contrast: [0.7, 1.3]
+  p: 0.25
+RandomPlasmaBrightness:
+  module: kornia.augmentation
+  roughness: [0.3, 0.6]
+  intensity: [0.05, 0.2]
+  p: 0.1
+RandomSharpness:
+  module: kornia.augmentation
+  sharpness: [0.7, 1.3]
+  p: 0.5
+RandomGaussianNoise:
+  module: kornia.augmentation
+  std: 0.01
+  p: 0.25
+RandomAspectCrop:
+  module: fxr.augmentation
+  height_range: [64, 224]
+  width_range: [64, 224]
+  p: 0.1

@@ -1,0 +1,51 @@
+# Example Slurm cluster config for `fxr-submit --cluster example_slurm`.
+#
+# Copy this file, replace every placeholder, and pass it with
+# `--cluster-cfg PATH` (or drop it into fxr/configs/cluster/ to select it by
+# name). The keys below are the complete set the launcher reads; anything else
+# is deep-merged onto every run config as an experiment override.
+
+# `slurm` submits through submitit's AutoExecutor; `local` runs in-process via
+# its local executor and ignores `slurm_args` and `training_requeue`.
+mode: slurm
+# Every run group is written under here (`{scratch_root}/training/{group}`).
+scratch_root: /path/to/scratch/FleXray
+# Dataset roots exported inside each job as CT_DATAPATH, XRAY_DATAPATH, and
+# GENERATED_DATAPATH; omit any the experiment does not use.
+ct_data_path: /path/to/datasets
+xray_data_path: /path/to/datasets/xray/256
+generated_data_path: /path/to/datasets
+# Prefix the run-group folder with MM_DD_YY_ (default true).
+add_date: true
+
+# Forwarded verbatim to submitit's `executor.update_parameters`; null values are
+# dropped. FleXray trains on at most one GPU, so `gpus_per_node` must be 1 (or
+# null on a CPU-only partition).
+slurm_args:
+  name: flexray-train
+  slurm_partition: your_partition
+  slurm_account: your_account
+  # slurm_qos: your_qos
+  mem_gb: 64
+  gpus_per_node: 1
+  tasks_per_node: 1
+  cpus_per_task: 8
+  timeout_min: 1439
+
+# Requeue preempted or timed-out jobs from their `last` checkpoint. When
+# enabled, `max_num_timeout` caps the requeues (default 3) and
+# `slurm_signal_delay_s` is the warning lead time (default 600).
+training_requeue:
+  enabled: true
+  max_num_timeout: 3
+  slurm_signal_delay_s: 600
+
+# Generic overrides merged onto every run config. The base recipe leaves
+# `dataloader.batch_size` and `dataloader.num_workers` as `?` placeholders, so
+# a cluster config must supply them.
+dataloader:
+  batch_size: 8
+  num_workers: 4
+log:
+  wandb:
+    mode: offline

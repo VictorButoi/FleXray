@@ -1,0 +1,105 @@
+layouts:
+  - dataset_name: MOOSE
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: MOOSE/thunder_moose/3D/all_categories/{version}
+    required_fields:
+      - version
+  - dataset_name: ElbowCT
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: '{dataset_name}/thunder_dbs/{version}'
+    required_fields:
+      - version
+  - dataset_name: RSNAFrac
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: '{dataset_name}/thunder_dbs/{version}'
+    required_fields:
+      - version
+  - dataset_name: PedsCT
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: '{dataset_name}/thunder_dbs/{version}'
+    required_fields:
+      - version
+  - dataset_name: HANSeg
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: '{dataset_name}/thunder_dbs/{version}'
+    required_fields:
+      - version
+  - dataset_name: ShoulderCT
+    modality: ct
+    storage_kwargs:
+      lazy_payload_refs: true
+      subject_grouping: subject
+    relative_path_template: '{dataset_name}/thunder_dbs/{version}'
+    required_fields:
+      - version
+  - dataset_name: HandBones
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: FootBones
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: DeepFluoro
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: HipRay
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: LowerLimbs
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: MendeleyCXR
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: RAM-W600
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: ThoracoaMonch
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: VinDr-Rib
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: ShoulderMonch
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: JRST
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: MURA_FOREARM
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: MURA_HUMERUS
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: DarwinCVD19
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: ElbowLat
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: KidneyStone
+    modality: xray
+    relative_path_template: '{dataset_name}'
+  - dataset_name: FluXray
+    modality: xray
+    root_env_var: GENERATED_DATAPATH
+    storage_kwargs:
+      lazy_payload_refs: true
+    relative_path_template: FluXray/thunder_dbs/{version}
+    required_fields:
+      - version

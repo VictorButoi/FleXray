@@ -1,0 +1,7 @@
+dataset_name: HipRay
+skip_subjects:
+- image_001
+stored_labels:
+  0: background
+  1: femurs
+  2: hips

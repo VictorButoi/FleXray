@@ -1,0 +1,29 @@
+dataset_name: ElbowCT
+skip_subjects:
+- '004'
+- '014'
+- '042'
+- '043'
+- 092
+- '104'
+- '115'
+- '120'
+- '130'
+- '122'
+- '143'
+- '148'
+- '151'
+- '168'
+- '185'
+- '189'
+- '192'
+- '199'
+stored_labels:
+  0: background
+  1: humeri
+  2: ulnae
+supervise_empty_labels:
+- femurs
+- patellae
+- tibiae
+- fibulae

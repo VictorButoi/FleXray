@@ -1,0 +1,46 @@
+dataset_name: VinDr-Rib
+skip_subjects: null
+stored_labels:
+  0: background
+  1: rib_right_1
+  2: rib_right_2
+  3: rib_right_3
+  4: rib_right_4
+  5: rib_right_5
+  6: rib_right_6
+  7: rib_right_7
+  8: rib_right_8
+  9: rib_right_9
+  10: rib_right_10
+  11: rib_left_1
+  12: rib_left_2
+  13: rib_left_3
+  14: rib_left_4
+  15: rib_left_5
+  16: rib_left_6
+  17: rib_left_7
+  18: rib_left_8
+  19: rib_left_9
+  20: rib_left_10
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    rib_right_1: rib_1
+    rib_right_2: rib_2
+    rib_right_3: rib_3
+    rib_right_4: rib_4
+    rib_right_5: rib_5
+    rib_right_6: rib_6
+    rib_right_7: rib_7
+    rib_right_8: rib_8
+    rib_right_9: rib_9
+    rib_right_10: rib_10
+    rib_left_1: rib_1
+    rib_left_2: rib_2
+    rib_left_3: rib_3
+    rib_left_4: rib_4
+    rib_left_5: rib_5
+    rib_left_6: rib_6
+    rib_left_7: rib_7
+    rib_left_8: rib_8
+    rib_left_9: rib_9
+    rib_left_10: rib_10

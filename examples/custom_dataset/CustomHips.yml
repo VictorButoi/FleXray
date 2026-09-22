@@ -1,0 +1,19 @@
+# Dataset spec: how CustomHips' native mask ids map into the FleXray protocol.
+# - hip_left / hip_right are finer than the protocol and merge into `hips`
+# - femurs already uses the protocol name (identity mapping, nothing to declare)
+# - implant is not part of the protocol and is dropped to background
+dataset_name: CustomHips
+skip_subjects: null
+stored_labels:
+  0: background
+  1: hip_left
+  2: hip_right
+  3: femurs
+  4: implant
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    hip_left: hips
+    hip_right: hips
+protocol_drop_labels:
+  all_structures_flexray_v4:
+    - implant

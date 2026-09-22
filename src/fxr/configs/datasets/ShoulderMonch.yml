@@ -1,0 +1,9 @@
+dataset_name: ShoulderMonch
+skip_subjects:
+- 142_jpg.rf.Epmi0BJEBLvZ1DP1udNt
+- 183_jpg.rf.7JM86VhDMbCRXg7yKTib
+- 244_jpg.rf.BTSfvWPtoVdm4v7ZVjbz
+stored_labels:
+  0: background
+  2: clavicles
+  4: humeri

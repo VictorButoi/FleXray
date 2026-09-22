@@ -1,0 +1,10 @@
+dataset_name: JRST
+skip_subjects: null
+stored_labels:
+  0: background
+  85: heart
+  170: body
+  255: lungs
+protocol_drop_labels:
+  all_structures_flexray_v4:
+  - body

@@ -1,0 +1,3 @@
+# The test suite imports repository-root fixtures (examples/) that are not
+# shipped, so keep it out of the sdist.
+prune tests

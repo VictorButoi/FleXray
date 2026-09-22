@@ -1,0 +1,28 @@
+dataset_name: FootBones
+skip_subjects:
+- DX650_jpg.rf.bPxWmBvVEjIzlDuHF3pP
+stored_labels:
+  0: background
+  1: metatarsal_one
+  2: metatarsal_two
+  3: metatarsal_three
+  4: metatarsal_four
+  5: metatarsal_five
+  6: toes
+  7: todo_drop_native_7
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    metatarsal_one: metatarsals
+    metatarsal_two: metatarsals
+    metatarsal_three: metatarsals
+    metatarsal_four: metatarsals
+    metatarsal_five: metatarsals
+protocol_drop_labels:
+  all_structures_flexray_v4:
+  - todo_drop_native_7
+supervise_empty_labels:
+- phalanges
+- metacarpals
+- carpals
+- ulnae
+- radii

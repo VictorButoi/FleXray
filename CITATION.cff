@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use FleXray, please cite it using this metadata."
+title: "FleXray: Universal Clinical X-ray Segmentation"
+authors:
+  - family-names: Butoi
+    given-names: Victor Ion
+  - family-names: Gopalakrishnan
+    given-names: Vivek
+  - family-names: Guttag
+    given-names: John V.
+  - family-names: Dalca
+    given-names: Adrian V.
+  - family-names: Dey
+    given-names: Neel
+year: 2026
+license: MIT
+repository-code: "https://github.com/VictorButoi/FleXray"

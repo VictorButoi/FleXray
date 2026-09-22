@@ -1,0 +1,82 @@
+# Minimal training config for the custom-dataset walkthrough.
+#
+# It is written out in full instead of inheriting `_base_: base`: `_base_`
+# deep-merges the packaged recipe, which would pull in all eleven FleXray
+# training sources and their DRR profiles. `?` placeholders are filled with
+# --set at launch (see README.md).
+experiment:
+  _class: fxr.experiment.FleXrayTrainExperiment
+  seed: 0
+
+train:
+  epochs: 2
+  eval_freq: 1
+  normalization:
+    scheme: percentile_minmax
+    percentiles: [0.5, 99.5]
+    eps: 1.0e-8
+
+protocol:
+  name: all_structures_flexray_v4
+
+# The full Xray_base chain expects 256x256 inputs (its aspect crop needs at
+# least 224 pixels per axis); the 64x64 synthetic images use the light preset.
+augmentation:
+  presets:
+    Xray: base_light
+
+model:
+  _class: fxr.models.UNet
+  in_channels: 1
+  filters: [8, 16, 32]
+
+data:
+  Xray:
+    CustomHips:
+      path: '?'
+      dataset_spec: '?'
+
+dataloader:
+  batch_size: 2
+  num_workers: 0
+  iters_per_epoch: 4
+  proportions:
+    CustomHips: 1
+
+optim:
+  _class: torch.optim.AdamW
+  lr: 1.0e-3
+
+loss_func:
+  _class: DatasetRoutedLoss
+  losses:
+    standard_seg:
+      _combo_class:
+        SoftDiceLoss:
+          _class: SoftDiceLoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: true
+          ignore_empty_labels: true
+          weight: 1.0
+        CrossEntropyLoss:
+          _class: PixelCELoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: false
+          ignore_empty_labels: false
+          weight: 1.0
+  dataset_losses:
+    CustomHips: standard_seg
+
+callbacks: {}
+
+log:
+  root: '?'
+  model_weights:
+    save_freq: 0
+  wandb:
+    project: flexray
+    mode: offline

@@ -1,0 +1,22 @@
+dataset_name: LowerLimbs
+skip_subjects:
+- Oa6_JPEG.rf.ltMHLr78DZlVD4W4M5zH
+- hip13_PNG.rf.tXmbhFshA0sbfcaJEDiP
+- scan7_JPG.rf.pkOCTxlFWJ1FD3BpptQH
+- oa3_JPG.rf.6AzZecyd6ZDd4oIqVt12
+- scan10_jpg.rf.PSMHmipVRm4nyqbuxunF
+stored_labels:
+  0: background
+  1: todo_drop_native_1
+  2: todo_drop_native_2
+  3: femurs
+  4: todo_drop_native_4
+  5: fibulae
+  6: tibiae
+  7: todo_drop_native_7
+protocol_drop_labels:
+  all_structures_flexray_v4:
+  - todo_drop_native_1
+  - todo_drop_native_2
+  - todo_drop_native_4
+  - todo_drop_native_7

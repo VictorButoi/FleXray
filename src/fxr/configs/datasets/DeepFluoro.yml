@@ -1,0 +1,23 @@
+dataset_name: DeepFluoro
+skip_subjects:
+- subject01_003
+- subject01_050
+- subject04_002
+- subject04_004
+stored_labels:
+  0: background
+  1: hip_left
+  2: hip_right
+  3: lumbar_spine
+  4: upper_sacrum
+  5: femur_left
+  6: femur_right
+  7: lower_sacrum
+protocol_label_aliases:
+  all_structures_flexray_v4:
+    hip_left: hips
+    hip_right: hips
+    femur_left: femurs
+    femur_right: femurs
+    upper_sacrum: sacrum
+    lower_sacrum: sacrum

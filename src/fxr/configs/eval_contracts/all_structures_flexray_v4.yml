@@ -1,0 +1,150 @@
+model_name: all_structures_flexray_v4
+identity_defaults: dataset_eval_labels
+# MOOSE stays as an identity eval set: it is the alias target that FluXray
+# eval-contract compilation resolves through (MOOSE dataset_aliases: FluXray).
+eval_sets:
+  MOOSE: {}
+  DarwinCVD19: {}
+  KidneyStone: {}
+  DeepFluoro:
+    lumbar_spine:
+      candidates:
+      - model_labels:
+        - lumbar_spine
+      - model_labels:
+        - vertebra_l1
+        - vertebra_l2
+        - vertebra_l3
+        - vertebra_l4
+        - vertebra_l5
+  FootBones: {}
+  HandBones: {}
+  HipRay: {}
+  JRST:
+    cervicothoracic_spine:
+      candidates:
+      - model_labels:
+        - cervicothoracic_spine
+      - model_labels:
+        - vertebra_c1
+        - vertebra_c2
+        - vertebra_c3
+        - vertebra_c4
+        - vertebra_c5
+        - vertebra_c6
+        - vertebra_c7
+        - vertebra_t1
+        - vertebra_t2
+        - vertebra_t3
+        - vertebra_t4
+        - vertebra_t5
+        - vertebra_t6
+        - vertebra_t7
+        - vertebra_t8
+        - vertebra_t9
+        - vertebra_t10
+        - vertebra_t11
+        - vertebra_t12
+  LowerLimbs: {}
+  ElbowLat: {}
+  MURA_FOREARM: {}
+  MURA_HUMERUS:
+    cervicothoracic_spine:
+      candidates:
+      - model_labels:
+        - cervicothoracic_spine
+      - model_labels:
+        - vertebra_c1
+        - vertebra_c2
+        - vertebra_c3
+        - vertebra_c4
+        - vertebra_c5
+        - vertebra_c6
+        - vertebra_c7
+        - vertebra_t1
+        - vertebra_t2
+        - vertebra_t3
+        - vertebra_t4
+        - vertebra_t5
+        - vertebra_t6
+        - vertebra_t7
+        - vertebra_t8
+        - vertebra_t9
+        - vertebra_t10
+        - vertebra_t11
+        - vertebra_t12
+  MendeleyCXR:
+    cervicothoracic_spine:
+      candidates:
+      - model_labels:
+        - cervicothoracic_spine
+      - model_labels:
+        - vertebra_c1
+        - vertebra_c2
+        - vertebra_c3
+        - vertebra_c4
+        - vertebra_c5
+        - vertebra_c6
+        - vertebra_c7
+        - vertebra_t1
+        - vertebra_t2
+        - vertebra_t3
+        - vertebra_t4
+        - vertebra_t5
+        - vertebra_t6
+        - vertebra_t7
+        - vertebra_t8
+        - vertebra_t9
+        - vertebra_t10
+        - vertebra_t11
+        - vertebra_t12
+  RAM-W600: {}
+  ShoulderMonch: {}
+  ThoracoaMonch:
+    thoracolumbar_spine:
+      candidates:
+      - model_labels:
+        - thoracolumbar_spine
+      - model_labels:
+        - vertebra_t1
+        - vertebra_t2
+        - vertebra_t3
+        - vertebra_t4
+        - vertebra_t5
+        - vertebra_t6
+        - vertebra_t7
+        - vertebra_t8
+        - vertebra_t9
+        - vertebra_t10
+        - vertebra_t11
+        - vertebra_t12
+        - vertebra_l1
+        - vertebra_l2
+        - vertebra_l3
+        - vertebra_l4
+        - vertebra_l5
+  VinDr-Rib:
+    cervicothoracic_spine:
+      candidates:
+      - model_labels:
+        - cervicothoracic_spine
+      - model_labels:
+        - vertebra_c1
+        - vertebra_c2
+        - vertebra_c3
+        - vertebra_c4
+        - vertebra_c5
+        - vertebra_c6
+        - vertebra_c7
+        - vertebra_t1
+        - vertebra_t2
+        - vertebra_t3
+        - vertebra_t4
+        - vertebra_t5
+        - vertebra_t6
+        - vertebra_t7
+        - vertebra_t8
+        - vertebra_t9
+        - vertebra_t10
+        - vertebra_t11
+        - vertebra_t12

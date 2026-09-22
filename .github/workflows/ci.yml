@@ -1,0 +1,80 @@
+name: Test and build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+
+      - name: Install test environment
+        run: uv sync --locked --extra train --extra test
+
+      - name: Run tests
+        run: uv run pytest -q
+
+  wheel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+          enable-cache: true
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Verify wheel contents
+        run: |
+          uv venv .wheel-venv
+          wheel_path="$(find dist -maxdepth 1 -name 'flexray-*.whl' -print -quit)"
+          test -n "${wheel_path}"
+          uv pip install --python .wheel-venv/bin/python "${wheel_path}"
+          .wheel-venv/bin/python -m tests.inference_install_smoke
+          .wheel-venv/bin/flexify --help
+          .wheel-venv/bin/fxr-protocol --help
+          .wheel-venv/bin/python - <<'PY'
+          from pathlib import Path
+          import tarfile
+          import zipfile
+
+          with tarfile.open(next(Path("dist").glob("flexray-*.tar.gz"))) as archive:
+              assert not any("/tests/" in name for name in archive.getnames())
+          with zipfile.ZipFile(next(Path("dist").glob("flexray-*.whl"))) as archive:
+              names = archive.namelist()
+              clusters = [name for name in names if name.startswith("fxr/configs/cluster/")]
+              assert clusters == ["fxr/configs/cluster/example_slurm.yml"]
+              assert not any(name.endswith(".DS_Store") for name in names)
+          PY
+          uv pip install --python .wheel-venv/bin/python "${wheel_path}[train]"
+          .wheel-venv/bin/fxr-dataset --help
+          .wheel-venv/bin/fxr-train --help
+          .wheel-venv/bin/fxr-submit --help
+          .wheel-venv/bin/fxr-render --help
+          .wheel-venv/bin/fxr-protocol --help

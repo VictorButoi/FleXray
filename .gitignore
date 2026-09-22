@@ -1,0 +1,34 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local environments
+.venv/
+
+# Local agent instructions and settings
+/AGENTS.md
+/CLAUDE.md
+/.claude/settings.local.json
+
+# Experiment client output
+wandb/
+
+# Web-demo ONNX exports (hosted on the Hugging Face model repo, never in git)
+exports/
+
+# Packaging / build metadata
+*.egg-info/
+build/
+dist/
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Example working directories
+examples/custom_dataset/work/

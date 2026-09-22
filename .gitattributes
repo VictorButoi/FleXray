@@ -1,0 +1,2 @@
+# Keep rendered document sources out of line-oriented text diffs.
+*.pdf binary

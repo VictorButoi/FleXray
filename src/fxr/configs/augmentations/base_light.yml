@@ -1,0 +1,3 @@
+RandomInvert:
+  module: kornia.augmentation
+  p: 0.5

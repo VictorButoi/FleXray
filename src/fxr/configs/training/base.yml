@@ -1,0 +1,396 @@
+# Full multimodal segmentation training config for FleXrayTrainExperiment.
+#
+# Synced to the training recipe of 2026-08-22 (the one behind the
+# released FleXray weights): 4 real X-ray datasets, the channel-mask
+# FluXray X-ray source, and 6 CT->DRR datasets, routed through DatasetRoutedLoss.
+# Prediction TTA is a predict-time argument in fxr.inference, not training config.
+#
+# Values set to '?' must be supplied at launch (see fxr.config.check_missing);
+# the cluster/exp-config flow (docs/launch.md) typically fills batch_size and
+# log.root.
+
+experiment:
+  _class: fxr.experiment.FleXrayTrainExperiment
+  seed: 40
+
+train:
+  epochs: 2000
+  eval_freq: 50
+  amp_dtype: null
+  normalization:
+    scheme: percentile_minmax
+    percentiles: [0.5, 99.5]
+    eps: 1.0e-8
+  ema:
+    enabled: true
+    decay: 0.9999
+    start_after_steps: 0
+    update_every: 1
+
+protocol:
+  name: all_structures_flexray_v4
+  # The shared protocol also recognizes two dataset/evaluation-only aggregate
+  # spine labels. The released model predicts the 60 anatomical labels below.
+  model_labels:
+    names:
+      - background
+      - skull
+      - scapulae
+      - clavicles
+      - humeri
+      - phalanges
+      - metacarpals
+      - carpals
+      - radii
+      - ulnae
+      - tibiae
+      - femurs
+      - patellae
+      - fibulae
+      - metatarsals
+      - tarsals
+      - toes
+      - rib_1
+      - rib_2
+      - rib_3
+      - rib_4
+      - rib_5
+      - rib_6
+      - rib_7
+      - rib_8
+      - rib_9
+      - rib_10
+      - rib_11
+      - rib_12
+      - sternum
+      - vertebra_c1
+      - vertebra_c2
+      - vertebra_c3
+      - vertebra_c4
+      - vertebra_c5
+      - vertebra_c6
+      - vertebra_c7
+      - vertebra_t1
+      - vertebra_t2
+      - vertebra_t3
+      - vertebra_t4
+      - vertebra_t5
+      - vertebra_t6
+      - vertebra_t7
+      - vertebra_t8
+      - vertebra_t9
+      - vertebra_t10
+      - vertebra_t11
+      - vertebra_t12
+      - vertebra_l1
+      - vertebra_l2
+      - vertebra_l3
+      - vertebra_l4
+      - vertebra_l5
+      - hips
+      - sacrum
+      - kidneys
+      - liver
+      - spleen
+      - lungs
+      - heart
+
+# Per-modality train augmentation presets (fxr/configs/augmentations/).
+augmentation:
+  presets:
+    CT: CT_base
+    Xray: Xray_base
+
+model:
+  compile_cfg:
+    enabled: false
+  _class: fxr.models.UNet
+  in_channels: 1
+  filters: [64, 128, 256, 512, 512, 720, 1024]
+  convs_per_block: 3
+  skip_connections: true
+  norm: instance
+  residual: true
+  norm_after_activation: true
+  upsample_align_corners: true
+  residual_shortcut_norm: true
+
+data:
+  Xray:
+    HandBones: {}
+    FootBones: {}
+    MURA_FOREARM: {}
+    MURA_HUMERUS: {}
+    FluXray:
+      version: "1.0"
+  # Crop-backed CT sources (storage_layout: crops) sample crops by tempered
+  # inverse label frequency: (N / n_c) ** tau, max over a crop's classes.
+  CT:
+    MOOSE:
+      version: 3.0
+      crop_mode: none
+      air_clamp_hu: -900
+      sample_weighting: &inverse_label_frequency
+        scheme: inverse_label_frequency
+        tau: 0.5
+        class_aggregation: max
+    ElbowCT:
+      version: 3.0
+      crop_mode: none
+      air_clamp_hu: -900
+      sample_weighting: *inverse_label_frequency
+    RSNAFrac:
+      version: 4.0
+      crop_mode: none
+      air_clamp_hu: -900
+      sample_weighting: *inverse_label_frequency
+    PedsCT:
+      version: 2.0
+      crop_mode: none
+      air_clamp_hu: -900
+      sample_weighting: *inverse_label_frequency
+    HANSeg:
+      version: 1.0
+      crop_mode: none
+      air_clamp_hu: -900
+    ShoulderCT:
+      version: 1.0
+      crop_mode: none
+      air_clamp_hu: -900
+
+dataloader:
+  batch_size: '?'
+  num_workers: '?'
+  # Fixed train epoch length: active train loaders cycle according to
+  # dataloader.proportions until exactly this many batches emit.
+  iters_per_epoch: 500
+  proportions:
+    MOOSE: 0.375
+    ShoulderCT: 0.05
+    HANSeg: 0.05
+    PedsCT: 0.04
+    RSNAFrac: 0.04
+    ElbowCT: 0.03
+    FluXray: 0.375
+    HandBones: 0.01
+    FootBones: 0.01
+    MURA_FOREARM: 0.01
+    MURA_HUMERUS: 0.01
+  CT:
+    batch_size: 1
+  Xray: {}
+
+optim:
+  _class: torch.optim.AdamW
+  lr: 3.0e-4
+  fused: true
+  lr_scheduler:
+    _class: torch.optim.lr_scheduler.CosineAnnealingLR
+    interval: epoch
+
+# CT->DRR rendering profiles. `default` is shared; each `datasets` entry is
+# deep-merged onto it and every configured CT dataset must appear (null = use
+# the default unchanged). See docs/camera.md.
+drr_model:
+  default:
+    air_clamp_hu: -900
+    preset: random
+    intrinsics_cfg:
+      height: 256
+      width: 256
+    sample_params_cfg:
+      rot_range:
+        alpha: [-180, 180]
+        beta: [-30, 30]
+        gamma: [0, 0]
+    attenuation_cfg:
+      prob: 0.5
+      range: [0.1, 4.0]
+      scope: per_label
+      distribution:
+        type: lognormal
+        mode: 1.0
+        sigma: 1.0
+    seg_cfg: {}
+  datasets:
+    MOOSE:
+      isocenter_cfg:
+        sample_scheme: random_label
+        replacement: false
+      intrinsics_cfg:
+        sdd: [1150, 1250]
+        delx: [1.25, 2.25]
+        projection_mode:
+          cone: 0.9
+          orthographic: 0.1
+      sample_params_cfg:
+        xyz_range:
+          x: [-100, 100]
+          y: [500, 900]
+          z: [-100, 100]
+    ElbowCT:
+      isocenter_cfg:
+        sample_scheme: volume_center
+      intrinsics_cfg:
+        sdd: [1050, 1150]
+        delx: [1.25, 2.0]
+        projection_mode:
+          cone: 1.0
+          orthographic: 0.0
+      sample_params_cfg:
+        xyz_range:
+          x: [0, 0]
+          y: [500, 800]
+          z: [-50, 50]
+        rot_range:
+          gamma: [-45, 45]
+    RSNAFrac:
+      isocenter_cfg:
+        sample_scheme: volume_center
+      intrinsics_cfg:
+        sdd: [950, 1050]
+        delx: [1.0, 2.0]
+        projection_mode:
+          cone: 1.0
+          orthographic: 0.0
+      sample_params_cfg:
+        xyz_range:
+          x: [-50, 50]
+          y: [500, 800]
+          z: [-100, 100]
+        rot_range:
+          gamma: [-45, 45]
+    PedsCT:
+      isocenter_cfg:
+        sample_scheme: volume_center
+      intrinsics_cfg:
+        sdd: [1050, 1150]
+        delx: [1.25, 2.0]
+        projection_mode:
+          cone: 0.9
+          orthographic: 0.1
+      sample_params_cfg:
+        xyz_range:
+          x: [-50, 50]
+          y: [700, 800]
+          z: [-50, 50]
+    HANSeg:
+      isocenter_cfg:
+        sample_scheme: volume_center
+      intrinsics_cfg:
+        sdd: [1150, 1250]
+        delx: [1.0, 2.0]
+        projection_mode:
+          cone: 1.0
+          orthographic: 0.0
+      sample_params_cfg:
+        xyz_range:
+          x: [-50, 50]
+          y: [500, 800]
+          z: [-100, 100]
+        rot_range:
+          gamma: [-45, 45]
+    ShoulderCT:
+      isocenter_cfg:
+        sample_scheme: volume_center
+      intrinsics_cfg:
+        sdd: [950, 1050]
+        delx: [1.9, 2.0]
+        projection_mode:
+          cone: 1.0
+          orthographic: 0.0
+      sample_params_cfg:
+        xyz_range:
+          x: [-50, 50]
+          y: [400, 600]
+          z: [-100, 100]
+        rot_range:
+          gamma: [-45, 45]
+
+# Dataset-routed loss: fully-labeled sources use `standard_seg`; partially
+# labeled sources ignore background/empty channels via `partial_labeled_seg`.
+loss_func:
+  _class: DatasetRoutedLoss
+  losses:
+    standard_seg:
+      _combo_class:
+        SoftDiceLoss:
+          _class: SoftDiceLoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: true
+          ignore_empty_labels: true
+          weight: 1.0
+        CrossEntropyLoss:
+          _class: PixelCELoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: false
+          ignore_empty_labels: false
+          weight: 1.0
+    partial_labeled_seg:
+      _combo_class:
+        SoftDiceLoss:
+          _class: SoftDiceLoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: true
+          ignore_empty_labels: true
+          weight: 1.0
+        CrossEntropyLoss:
+          _class: PixelCELoss
+          from_logits: true
+          batch_reduction: mean
+          mode: binary
+          ignore_background: true
+          ignore_empty_labels: true
+          weight: 1.0
+  dataset_losses:
+    MOOSE: standard_seg
+    HandBones: standard_seg
+    FluXray: standard_seg
+    ShoulderCT: standard_seg
+    HANSeg: standard_seg
+    FootBones: partial_labeled_seg
+    ElbowCT: partial_labeled_seg
+    RSNAFrac: partial_labeled_seg
+    PedsCT: partial_labeled_seg
+    MURA_FOREARM: partial_labeled_seg
+    MURA_HUMERUS: partial_labeled_seg
+
+callbacks:
+  epoch:
+    samples:
+      _class: fxr.experiment.WandbSamplePredictionLogger
+      every: 250
+      max_samples: 4
+    eval_sets:
+      _class: fxr.experiment.EvalSetMetricLogger
+      every: 50
+      split: val
+      min_ground_truth_area_fraction: 0.001
+      data:
+        Xray:
+          DarwinCVD19: {}
+          HandBones: {}
+          FootBones: {}
+          ElbowLat: {}
+          DeepFluoro: {}
+          HipRay: {}
+          LowerLimbs: {}
+          MURA_FOREARM: {}
+          MURA_HUMERUS: {}
+          RAM-W600: {}
+          ThoracoaMonch: {}
+          VinDr-Rib: {}
+
+log:
+  root: '?'
+  model_weights:
+    save_freq: 0
+  wandb:
+    project: flexray
+    mode: online

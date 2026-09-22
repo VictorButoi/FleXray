@@ -1,0 +1,21 @@
+dataset_name: RSNAFrac
+skip_subjects: null
+stored_labels:
+  0: background
+  1: vertebra_c1
+  2: vertebra_c2
+  3: vertebra_c3
+  4: vertebra_c4
+  5: vertebra_c5
+  6: vertebra_c6
+  7: vertebra_c7
+  8: vertebra_t1
+  9: vertebra_t2
+  10: vertebra_t3
+  11: vertebra_t4
+  12: vertebra_t5
+  13: vertebra_t6
+  14: vertebra_t7
+  15: skull
+supervise_empty_labels:
+- humeri
