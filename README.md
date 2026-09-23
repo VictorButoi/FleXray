@@ -8,7 +8,7 @@
 
 # FleXray: Universal Clinical X-ray Segmentation 💪
 
-### [Project Page](https://flexray.csail.mit.edu/)
+### [Paper](https://arxiv.org/abs/2609.26756) · [Project Page](https://flexray.csail.mit.edu/)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jMBoOyV8PkRThHi3i6QIMjolmNoRE0cD)
 [![PyPI version](https://img.shields.io/pypi/v/flexray.svg)](https://pypi.org/project/flexray/)
@@ -230,16 +230,18 @@ and [`docs/config.md`](https://github.com/VictorButoi/FleXray/blob/main/docs/con
 
 ## Citation
 
-If you find FleXray or any of its materials useful, please cite the software. See
+If you find FleXray or any of its materials useful, please cite [our paper](https://arxiv.org/abs/2609.26756). See
 [`CITATION.cff`](https://github.com/VictorButoi/FleXray/blob/main/CITATION.cff) for citation metadata.
 
 ```bibtex
-@software{butoi2026flexray,
-  title = {FleXray: Universal Clinical X-ray Segmentation},
-  author = {Victor Ion Butoi and Vivek Gopalakrishnan and John V. Guttag and Adrian V. Dalca and Neel Dey},
-  year = {2026},
-  url = {https://github.com/VictorButoi/FleXray},
-  license = {MIT}
+@misc{butoi2026flexray,
+      title={FleXray: Universal Clinical X-ray Segmentation},
+      author={Victor Ion Butoi and Vivek Gopalakrishnan and John V. Guttag and Adrian V. Dalca and Neel Dey},
+      year={2026},
+      eprint={2609.26756},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2609.26756},
 }
 ```
 
