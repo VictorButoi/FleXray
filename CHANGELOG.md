@@ -1,5 +1,12 @@
 # Release notes
 
+## 1.0.3
+
+Archival release for the paper's software citation; no package code changes
+since 1.0.2. `CITATION.cff` links the arXiv paper as the preferred citation and
+adds a software abstract, the README links the paper, and the tutorial notebook
+pins FleXray 1.0.2.
+
 ## 1.0.2
 
 FleXray development, issues, pull requests, and package releases now live in the
