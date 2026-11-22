@@ -1,6 +1,11 @@
 cff-version: 1.2.0
 message: "If you use FleXray, please cite the paper below."
 title: "FleXray: Universal Clinical X-ray Segmentation"
+abstract: >-
+  FleXray is a Python package and command-line tool for anatomy segmentation
+  of clinical X-ray images. It provides pretrained inference with the flexify
+  CLI and config-driven training that combines 2D X-ray segmentation data with
+  CT segmentation volumes rendered to digitally reconstructed radiographs.
 authors:
   - family-names: Butoi
     given-names: Victor Ion
