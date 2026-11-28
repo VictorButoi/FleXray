@@ -13,6 +13,7 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1jMBoOyV8PkRThHi3i6QIMjolmNoRE0cD)
 [![PyPI version](https://img.shields.io/pypi/v/flexray.svg)](https://pypi.org/project/flexray/)
 [![Total PyPI downloads](https://static.pepy.tech/personalized-badge/flexray?period=total&units=none&left_color=grey&right_color=blue&left_text=downloads)](https://pepy.tech/project/flexray)
+[![Hugging Face downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2FVictorButoi%2Fflexray%3Fexpand%255B%255D%3DdownloadsAllTime&query=%24.downloadsAllTime&label=HF%20downloads&logo=huggingface&color=blue)](https://huggingface.co/VictorButoi/flexray)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/VictorButoi/FleXray/blob/main/LICENSE)
 
 [Victor Ion Butoi](https://victorbutoi.github.io/),
